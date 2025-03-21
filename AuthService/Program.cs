@@ -39,23 +39,20 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllDomains",
+    options.AddPolicy("AllowAll",
         policy =>
         {
             policy.AllowAnyOrigin() 
-                  .AllowAnyHeader()
-                  .WithOrigins("https://optibyte-frontend-pi.vercel.app/")
-                  .WithOrigins("http://13.66.130.236:3001")
-                  .WithOrigins("http://localhost:3000")
-                  .AllowAnyMethod(); 
+                  .AllowAnyHeader() 
+                  .AllowAnyMethod();
         });
 });
-builder.Services.AddControllers()
-            .AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            });
 
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    });
 
 var app = builder.Build();
 
@@ -66,7 +63,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowAllDomains");
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
